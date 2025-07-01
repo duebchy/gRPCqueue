@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package message;
+
+option go_package = "messagepb/";
+
+message CreateMessageRequest{
+  string content = 1;
+  string idempotency_key = 2;
+}
+message CreateMessageResponse {
+  string ID = 1;
+}
+message GetMessageByIDRequest{
+  string ID = 3;
+}
+message GetMessageByIDResponse{
+  repeated string messages = 1;
+}
+message GetMessageByOffsetRequest{
+  uint32 offset = 1;
+  uint32 limit  = 2;
+}
+message GetMessageByOffsetResponse{
+  repeated string messages = 1;
+}
+service msgService {
+  rpc CreateMessage(CreateMessageRequest) returns (CreateMessageResponse);
+  rpc GetMessage(GetMessageByIDRequest) returns (GetMessageByIDResponse);
+  rpc GetMessageByOffset(GetMessageByOffsetRequest) returns (GetMessageByOffsetResponse);
+}
